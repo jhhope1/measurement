@@ -17,6 +17,7 @@ dwf = cdll.dwf
 hdwf = c_int()
 
 #asdfkdjeos
+#added_one
 
 #channel 0이 V+-, channel 1이 W+-인듯 합니다.
 channel = c_int(1)
