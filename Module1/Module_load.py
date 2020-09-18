@@ -16,6 +16,8 @@ dwf = cdll.dwf
 #declare ctype variables
 hdwf = c_int()
 
+#asdfkdjeos
+
 #channel 0이 V+-, channel 1이 W+-인듯 합니다.
 channel = c_int(1)
 hzSys = c_double()
