@@ -6,13 +6,15 @@
    Requires:                       
        Python 2.7, 3
 """
-
+#@
+from matplotlib import pyplot as plt
 from ctypes import *
 import time
 from dwfconstants import *
 import sys
 import matplotlib.pyplot as plt
 import numpy
+import numpy as np
 
 if sys.platform.startswith("win"):
     dwf = cdll.dwf
@@ -32,6 +34,9 @@ print("Number of Devices: "+str(cdevices.value))
 if cdevices.value == 0:
     print("no device detected")
     quit()
+#@
+
+buffer_size = 8000
 
 print("Opening first device")
 hdwf = c_int()
@@ -45,13 +50,14 @@ print("Configure and start first analog out channel")
 dwf.FDwfAnalogOutEnableSet(hdwf, c_int(0), c_int(1)) # 1 = Sine wave")
 dwf.FDwfAnalogOutFunctionSet(hdwf, c_int(0), c_int(1))
 dwf.FDwfAnalogOutFrequencySet(hdwf, c_int(0), c_double(3000))
+dwf.FDwfAnalogOutAmplitudeSet(hdwf, c_int(), c_double(0.01))
 dwf.FDwfAnalogOutConfigure(hdwf, c_int(0), c_int(1))
 
 print("Configure analog in")
 dwf.FDwfAnalogInFrequencySet(hdwf, c_double(1000000))
 print("Set range for all channels")
 dwf.FDwfAnalogInChannelRangeSet(hdwf, c_int(-1), c_double(4))
-dwf.FDwfAnalogInBufferSizeSet(hdwf, c_int(1000))
+dwf.FDwfAnalogInBufferSizeSet(hdwf, c_int(buffer_size))
 
 print("Wait after first device opening the analog in offset to stabilize")
 time.sleep(2)
@@ -67,13 +73,17 @@ while True:
     time.sleep(0.1)
 print("   done")
 
-rg = (c_double*1000)()
+rg = (c_double*buffer_size)()
 dwf.FDwfAnalogInStatusData(hdwf, c_int(0), rg, len(rg)) # get channel 1 data
 #dwf.FDwfAnalogInStatusData(hdwf, c_int(1), rg, len(rg)) # get channel 2 data
 
 dwf.FDwfAnalogOutReset(hdwf, c_int(0))
 dwf.FDwfDeviceCloseAll()
-
+'''
+a = np.arange(buffer_size)
+plt.plot(a, rg, label = 'blobaww')
+plt.show()
+'''
 dc = sum(rg)/len(rg)
 print("DC: "+str(dc)+"V")
 

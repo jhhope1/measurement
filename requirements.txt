@@ -3,4 +3,6 @@ time
 os
 sys
 math
-pandas as pd
+pandas
+numpy
+scipy
