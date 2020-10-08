@@ -1,10 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\DCMeasure",
-    "\\Function",
+    "\\Module1",
+    "\\Module1\\20201008 계측 Data",
     "\\tutorial"
   ],
-  "SelectedNode": "\\Function\\function.py",
+  "SelectedNode": "\\Module1\\20201008 계측 Data\\1MOhm_얼음0개.csv",
   "PreviewInSolutionExplorer": false
 }

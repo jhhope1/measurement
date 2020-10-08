@@ -78,6 +78,7 @@ Oscillo2_list = []
 for i in range(SAMPLES+1):
     #(hdwf, c_int(0) --> positive supply, c_int(0)-->setting exact value?, c_double(Power_V) --> set V to Power_V)
     dwf.FDwfAnalogIOChannelNodeSet(hdwf, c_int(0), c_int(1), c_double(Power_V_list[i]))
+    dwf.FDwfAnalogIOChannelNodeSet(hdwf, c_int(1), c_int(1), c_double(Power_V_list[i]))
     time.sleep(SLEEP_TIME)
     #이걸 안해주면 측정이 안되니 해야할것 같습니다.. False일때가 뭔진 모르겠으나 예제에 나와있었고, acquisition을 해주는 것 같습니다.
     # Checks the state of the acquisition. To read the data from the device, set fReadData to TRUE. For-

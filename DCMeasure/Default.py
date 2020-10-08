@@ -44,7 +44,7 @@ dwf.FDwfAnalogIOEnableSet(hdwf, c_int(True))
 
 dwf.FDwfAnalogInChannelEnableSet(hdwf, c_int(0), c_bool(True))
 dwf.FDwfAnalogInChannelOffsetSet(hdwf, c_int(0), c_double(0))
-dwf.FDwfAnalogInChannelRangeSet(hdwf, c_int(-1), c_double(0.2))
+dwf.FDwfAnalogInChannelRangeSet(hdwf, c_int(-1), c_double(5))
 dwf.FDwfAnalogInConfigure(hdwf, c_bool(False), c_bool(False))
 
 
