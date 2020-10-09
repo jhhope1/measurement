@@ -1,0 +1,15 @@
+// 각 단락에 무엇을 쓰면 좋을지 적어주시면 감사하겠습니다.
+
+0. Abstract
+
+1. Introduction
+
+1.5. Motivation(이론 강의 1에는 있길래 일단 넣었습니다. 다룬다면 introduction에서 다루면 될 것 같습니다.)
+
+2. Methods
+
+3. Results
+
+4. Discussion
+
+5. Conclusion
