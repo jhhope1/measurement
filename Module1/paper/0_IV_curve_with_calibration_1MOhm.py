@@ -11,12 +11,12 @@ sys.path.append(data_path)
 plt.rcParams["font.family"] = "Times New Roman"
 
 data = pd.read_csv(data_path+"\\1Mohm4단자osc.csv", skiprows=28, usecols=np.r_[0:3])
-V_DUC = data.loc[:,'Channel 1 (V)'].to_list()
+V_DUT = data.loc[:,'Channel 1 (V)'].to_list()
 V_tot = data.loc[:,'Channel 2 (V)'].to_list()
 
 # choose what to use as x and y
 x = list(V_tot)
-y = list(V_DUC)
+y = list(V_DUT)
 
 # 무엇을 x와 y의 값에 얼마를 곱할 것인지 선택하라.(ex choose mV in x axis --> x_mul = 1e3) 
 # 그래프에서 단위를 표기하는 것에 주의하라.
@@ -25,7 +25,7 @@ y_mul = 1e3
 x_rlim = max(x)
 x_llim = min(x)
 
-slope, intercept, r_value, p_value, std_err = stats.linregress(V_tot, V_DUC)
+slope, intercept, r_value, p_value, std_err = stats.linregress(V_tot, V_DUT)
 print('y = (%f) + (%f) * x' % (intercept, slope))
 print('r^2 = %f' % r_value**2)
 x_reggression = np.linspace(x_llim, x_rlim, 100)
@@ -43,9 +43,9 @@ y_ulim = max(y)
 y_dlim = min(y)
 
 
-plt.title('Correlation between $\mathrm{V_{tot}}$ and $\mathrm{V_{DUC}}$')
+plt.title('Correlation between $\mathrm{V_{tot}}$ and $\mathrm{V_{DUT}}$')
 plt.xlabel('$\mathrm{V_{tot}}$[V]')
-plt.ylabel('$\mathrm{V_{DUC}}$[mV]')
+plt.ylabel('$\mathrm{V_{DUT}}$[mV]')
 plt.xlim(x_llim, x_rlim)
 plt.ylim(y_dlim, y_ulim)
 plt.plot(x, y, '.', label='experiment', markersize = 1, color = 'black')
