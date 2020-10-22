@@ -62,7 +62,7 @@ dwf.FDwfAnalogIOEnableSet(hdwf, c_int(True))
 #--Set up analog input on channel 1---------------
 dwf.FDwfAnalogInChannelEnableSet(hdwf, c_int(0), c_bool(True))
 dwf.FDwfAnalogInChannelOffsetSet(hdwf, c_int(0), c_double(0))
-dwf.FDwfAnalogInChannelRangeSet(hdwf, c_int(-1), c_double(5))
+dwf.FDwfAnalogInChannelRangeSet(hdwf, c_int(-1), c_double(0.1))
 dwf.FDwfAnalogInConfigure(hdwf, c_bool(False), c_bool(False))
 # 왜 안해도 문제 없는지는 모르겠음...?bb..
 
@@ -74,11 +74,17 @@ time.sleep(2)
 #1MHz단위로 acquisition이 가능하다고 합니다. 앞으로 out_in은 AnalogInOut sample을 보면서 하면 될 것 같습니다. 
 Oscillo1_list = []
 Oscillo2_list = []
-
-for i in range(SAMPLES+1):
+Time = []
+V_input = 1
+#for i in range(SAMPLES+1):
+T_limit = 20
+t_start = time.time()
+while True:
+    if(time.time()-t_start>T_limit):
+        break
     #(hdwf, c_int(0) --> positive supply, c_int(0)-->setting exact value?, c_double(Power_V) --> set V to Power_V)
-    dwf.FDwfAnalogIOChannelNodeSet(hdwf, c_int(0), c_int(1), c_double(Power_V_list[i]))
-    dwf.FDwfAnalogIOChannelNodeSet(hdwf, c_int(1), c_int(1), c_double(Power_V_list[i]))
+    dwf.FDwfAnalogIOChannelNodeSet(hdwf, c_int(0), c_int(1), c_double(V_input))
+    dwf.FDwfAnalogIOChannelNodeSet(hdwf, c_int(1), c_int(1), c_double(V_input))
     time.sleep(SLEEP_TIME)
     #이걸 안해주면 측정이 안되니 해야할것 같습니다.. False일때가 뭔진 모르겠으나 예제에 나와있었고, acquisition을 해주는 것 같습니다.
     # Checks the state of the acquisition. To read the data from the device, set fReadData to TRUE. For-
@@ -89,18 +95,18 @@ for i in range(SAMPLES+1):
     dwf.FDwfAnalogInStatusSample(hdwf, c_int(0), byref(voltage0))   #oscilloscope 0
     # Gets the last ADC(Analog to digital) conversion sample from the specified idxChannel on the AnalogIn instrument.
     dwf.FDwfAnalogInStatusSample(hdwf, c_int(1), byref(voltage1))   #oscilloscope 1
-
+    Time.append(time.time()-t_start)
     Oscillo1_list.append(voltage0.value)
     Oscillo2_list.append(voltage1.value)
     print ("voltage0, voltage1 = {:.5f}, {:.5f}".format(voltage0.value, voltage1.value))
 #------------------------------
 
 #save _df to csv file
-tutorial_df = pd.DataFrame({'Power_V_list' : Power_V_list, 'Oscillo1_list' : Oscillo1_list, 'Oscillo2_list' : Oscillo2_list})
+tutorial_df = pd.DataFrame({'Time': Time, 'Oscillo1_list' : Oscillo1_list, 'Oscillo2_list' : Oscillo2_list})
 tutorial_df.to_csv(os.path.join(PARENT_PATH, 'Load_Rangeon.csv'))
 
 #plt.plot(Power_V_list, Power_V_list, label = 'Power_V_list')
-plt.plot(Power_V_list, Oscillo1_list, label = 'Oscillo1_list_range_off')
+plt.plot(Time, Oscillo1_list, label = 'Oscillo1_list_range_off')
 #plt.plot(Power_V_list, Oscillo2_list, label = 'Oscillo2_list')
 #실험 결과 확인할 때 좋을 것 같습니다.
 plt.legend()

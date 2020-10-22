@@ -10,7 +10,7 @@ save_path = os.path.dirname(__file__)
 sys.path.append(data_path)
 plt.rcParams["font.family"] = "Times New Roman"
 
-data = pd.read_csv(data_path+"\\1Mohm4단자osc_th를ground가깝게연결.csv", skiprows=28, usecols=np.r_[0:3])
+data = pd.read_csv(data_path+"\\1Mohm4단자vv.csv", skiprows=5, usecols=np.r_[0:2])
 V_DUT = data.loc[:,'Channel 1 (V)'].to_list()
 V_tot = data.loc[:,'Channel 2 (V)'].to_list()
 
@@ -21,10 +21,9 @@ y = np.array(list(V_DUT))
 x = (x-y)/1e6
 
 #cut Data for 1 period[:N] 
-N = int(1024 * 5)
-start = 26
-x = x[start:start+N]
-y = y[start:start+N]
+N = int(930 * 5.5)
+x = x[:N]
+y = y[:N]
 
 # 무엇을 x와 y의 값에 얼마를 곱할 것인지 선택하라.(ex choose mV in x axis --> x_mul = 1e3) 
 # 그래프에서 단위를 표기하는 것에 주의하라.
@@ -76,5 +75,5 @@ plt.plot(x_reggression, y_reggression, label='fitted', color = 'blue', linewidth
 plt.plot(x, y, '.', label='experiment', markersize = 7, color = 'black')
 plt.legend(loc=0)
 #plt.show() 하면 pdf출력이 안됨. 왜그런지는 모르겠음
-plt.savefig(os.path.join(save_path,'0_IV_curve_with_calibration.pdf'))
+plt.savefig(os.path.join(save_path,'0_IV_curve_with_calibration_far.pdf'))
 plt.show()

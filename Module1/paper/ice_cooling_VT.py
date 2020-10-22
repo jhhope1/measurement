@@ -10,25 +10,19 @@ save_path = os.path.dirname(__file__)
 sys.path.append(data_path)
 plt.rcParams["font.family"] = "Times New Roman"
 
-data = pd.read_csv(data_path+"\\1Mohm4단자osc_th를ground가깝게연결.csv", skiprows=28, usecols=np.r_[0:3])
+data = pd.read_csv(data_path+"\\1MOhm_closetoground_temperature.csv", skiprows=14, usecols=np.r_[0:3])
 V_DUT = data.loc[:,'Channel 1 (V)'].to_list()
 V_tot = data.loc[:,'Channel 2 (V)'].to_list()
+T = data.loc[:, 'Time (s)'].to_list()
 
 # choose what to use as x and y
-x = np.array(list(V_tot))
+x = np.array(list(T))
 y = np.array(list(V_DUT))
-#x = I
-x = (x-y)/1e6
-
-#cut Data for 1 period[:N] 
-N = int(1024 * 5)
-start = 26
-x = x[start:start+N]
-y = y[start:start+N]
+x -= np.min(x)
 
 # 무엇을 x와 y의 값에 얼마를 곱할 것인지 선택하라.(ex choose mV in x axis --> x_mul = 1e3) 
 # 그래프에서 단위를 표기하는 것에 주의하라.
-x_mul = 1e6
+x_mul = 1e0
 y_mul = 1e3
 x_rlim = max(x)
 x_llim = min(x)
@@ -43,7 +37,7 @@ y_reggression = intercept + slope * x_reggression
 #average the results
 x_avg = []
 y_avg = []
-avg_N = 100
+avg_N = 10
 for i in range(len(x)//avg_N):
     x_a = 0
     y_a = 0
@@ -63,18 +57,27 @@ y_reggression = [y_mul*e for e in y_reggression]
 
 x_rlim = max(x)
 x_llim = min(x)
-y_ulim = max(y)
-y_dlim = min(y)
+y_ulim = max(y)*1.1
+y_dlim = 0#min(y)
 
 plt.rc('font', size = 15)
-plt.title('Correlation between $\mathrm{I_{DUT}}$ and $\mathrm{V_{DUT}}$')
-plt.xlabel('$\mathrm{I_{DUT}}$[$\mathrm{\mu}A$]')
+plt.title('Curve between $\mathrm{t}$ and $\mathrm{V_{DUT}}$')
+plt.xlabel('$t$[s]')
 plt.ylabel('$\mathrm{V_{DUT}}$[mV]')
 plt.xlim(x_llim, x_rlim)
 plt.ylim(y_dlim, y_ulim)
-plt.plot(x_reggression, y_reggression, label='fitted', color = 'blue', linewidth = 2)
-plt.plot(x, y, '.', label='experiment', markersize = 7, color = 'black')
-plt.legend(loc=0)
+plt.plot(x, y, color = 'black')
+#plt.plot(x_reggression, y_reggression, label='fitted', color = 'blue', linewidth = 2)
+plt.annotate('a', (x[30]+1, y[30]+0.3), color = 'blue', size = 20)
+plt.plot(x[30], y[30], 'o', markersize = 5, color = 'blue')
+plt.annotate('b', (x[170]-9, y[170]+0.25), color = 'blue', size = 20)
+plt.plot(x[170], y[170], 'o', markersize = 5, color = 'blue')
+plt.annotate('c', (x[323]-5, y[323]-0.8), color = 'blue', size = 20)
+plt.plot(x[323], y[323], 'o', markersize = 5, color = 'blue')
+plt.annotate('d', (x[375]+3, y[375]), color = 'blue', size = 20)
+plt.plot(x[375], y[375], 'o', markersize = 5, color = 'blue')
+plt.annotate('e', (x[430]-2, y[430]+0.3), color = 'blue', size = 20)
+plt.plot(x[430], y[430], 'o', markersize = 5, color = 'blue')
 #plt.show() 하면 pdf출력이 안됨. 왜그런지는 모르겠음
-plt.savefig(os.path.join(save_path,'0_IV_curve_with_calibration.pdf'))
+plt.savefig(os.path.join(save_path,'ICE_coolign_Vt.pdf'))
 plt.show()

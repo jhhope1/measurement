@@ -49,8 +49,8 @@ if hdwf.value == hdwfNone.value:
 print("Configure and start first analog out channel")
 dwf.FDwfAnalogOutEnableSet(hdwf, c_int(0), c_int(1)) # 1 = Sine wave")
 dwf.FDwfAnalogOutFunctionSet(hdwf, c_int(0), c_int(1))
-dwf.FDwfAnalogOutFrequencySet(hdwf, c_int(0), c_double(3000))
-dwf.FDwfAnalogOutAmplitudeSet(hdwf, c_int(), c_double(0.01))
+dwf.FDwfAnalogOutFrequencySet(hdwf, c_int(0), c_double(1000))
+dwf.FDwfAnalogOutAmplitudeSet(hdwf, c_int(), c_double(1))
 dwf.FDwfAnalogOutConfigure(hdwf, c_int(0), c_int(1))
 
 print("Configure analog in")
