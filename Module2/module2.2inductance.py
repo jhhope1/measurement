@@ -53,6 +53,15 @@ if hdwf.value == hdwfNone.value:
     print("failed to open device")
     quit()
 
+'''
+'''
+def set_DC_output(Amplitude):
+    print("Configure and start first analog out channel")
+    dwf.FDwfAnalogOutEnableSet(hdwf, c_int(0), c_int(0)) # 1 = Sine wave")
+    dwf.FDwfAnalogOutFunctionSet(hdwf, c_int(0), c_int(0))
+    dwf.FDwfAnalogOutAmplitudeSet(hdwf, c_int(), c_double(Amplitude))
+    dwf.FDwfAnalogOutConfigure(hdwf, c_int(0), c_int(0))
+
 def set_sine_output(frequency, Amplitude):
     print("Configure and start first analog out channel")
     dwf.FDwfAnalogOutEnableSet(hdwf, c_int(0), c_int(1)) # 1 = Sine wave")
