@@ -14,6 +14,8 @@ plt.rcParams["font.family"] = "Times New Roman"
 
 data = pd.read_csv(data_path+"\\Module2.2kHz.csv", skiprows=28)
 
+pd.read_csv(data_path+"\\Module2.2kHz.csv")
+
 data_start = 8
 data_end = 1000
 time = np.array(list(data['Time (s)']))
