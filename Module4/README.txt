@@ -5,6 +5,10 @@ Schmitt trigger에서 triangular wave를 쓴 실험들은 Hysteresis를 보기 �
     basic trigger 폴더의 1kHz_OP97F_sine: V2는 input이어야 하지만, 기준 전압이 측정된 것 같습니다.
     같은 폴더의 1kHz짜리 triag, 10Hz와 10kHz짜리 sine도 마찬가지입니다.
 
+조교님의 피드백 파일에 따르면 수식과 그래프 축에 오는 경우를 제외한 모든 단위는 이탤릭체를 사용하지 않고 정자체로 숫자와 한 칸 띄어서 쓴다고 합니다.
+본문에 오는 단위 표시는 이 방법으로 통일하는게 좋을 것 같습니다.
+ex) 1 V, 1 kHz, 47 k$\Omega$
+
 모든 측정 데이터에 대하여 한 주기씩 그래프를 그려서 overleaf에 업로드해뒀습니다.
     파일 이름은 다음과 같습니다.
     1.으로 시작하는 것들은 Schmitt trigger 실험입니다.
